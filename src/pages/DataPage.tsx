@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import { Layout } from '../components/layout';
 import {
   Truck,
@@ -31,7 +31,6 @@ import {
   Eye,
   ChevronRight,
 } from 'lucide-react';
-import { customers, getInvoiceSummary } from '../data/mockData';
 import {
   drivers,
   staffEmployees,
@@ -768,10 +767,6 @@ function AccountingReport() {
 
 // ฝ่าย HR - Human Resources Department
 function HRReport() {
-  const allEmployees = [...staffEmployees, ...drivers];
-  const activeEmployees = allEmployees.filter(e => e.status === 'active');
-  const onLeaveEmployees = allEmployees.filter(e => e.status === 'onleave');
-
   const data = {
     totalEmployees: totalHeadcount.total,
     newHires: 3,

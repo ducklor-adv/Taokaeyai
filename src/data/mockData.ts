@@ -1,4 +1,4 @@
-import type { Manager, CompanyStats, PerformanceDataPoint, ForecastDataPoint, ChartData, TimeRange } from '../types';
+import type { Manager, CompanyStats, ChartData, TimeRange } from '../types';
 import {
   getTransportHealthData,
   getTransportPnLData,
@@ -232,7 +232,7 @@ function generateHealthBudgetYearly() {
   return data;
 }
 
-export function getChartData(timeRange: TimeRange): ChartData {
+export function getChartData(_timeRange: TimeRange): ChartData {
   return {
     past: [],
     current: [],
@@ -256,133 +256,6 @@ export function getHealthBudgetData(timeRange: TimeRange) {
 // ==================== Financial Data ====================
 
 export type IndicatorType = 'health' | 'pnl' | 'cashflow';
-
-// Generate P&L (งบกำไรขาดทุน) data
-function generatePnLMonthly() {
-  const data: any[] = [];
-  const today = new Date();
-  const thaiMonths = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'];
-
-  for (let i = -6; i <= 6; i++) {
-    const date = new Date(today);
-    date.setMonth(date.getMonth() + i);
-
-    const isFuture = i > 0;
-    const isThisMonth = i === 0;
-
-    // Base values in millions
-    const baseRevenue = 45 + randomInRange(-8, 12);
-    const baseExpense = 32 + randomInRange(-5, 8);
-    const profit = baseRevenue - baseExpense;
-
-    const yearSuffix = String(date.getFullYear()).slice(-2);
-    const dateLabel = thaiMonths[date.getMonth()] + "'" + yearSuffix;
-
-    data.push({
-      date: dateLabel,
-      revenue: isFuture ? baseRevenue + randomInRange(0, 5) : baseRevenue,
-      expense: isFuture ? baseExpense + randomInRange(-2, 3) : baseExpense,
-      profit: isFuture ? profit + randomInRange(0, 3) : profit,
-      isForecast: isFuture,
-      isToday: isThisMonth,
-    });
-  }
-
-  return data;
-}
-
-function generatePnLYearly() {
-  const data: any[] = [];
-  const currentYear = new Date().getFullYear();
-
-  for (let i = -3; i <= 3; i++) {
-    const year = currentYear + i;
-    const isFuture = i > 0;
-    const isThisYear = i === 0;
-
-    // Base values in millions (yearly)
-    const baseRevenue = 500 + randomInRange(-50, 80);
-    const baseExpense = 360 + randomInRange(-30, 50);
-    const profit = baseRevenue - baseExpense;
-
-    data.push({
-      date: String(year),
-      revenue: isFuture ? baseRevenue + randomInRange(10, 30) : baseRevenue,
-      expense: isFuture ? baseExpense + randomInRange(-10, 20) : baseExpense,
-      profit: isFuture ? profit + randomInRange(5, 15) : profit,
-      isForecast: isFuture,
-      isToday: isThisYear,
-    });
-  }
-
-  return data;
-}
-
-// Generate Cash Flow data
-function generateCashFlowMonthly() {
-  const data: any[] = [];
-  const today = new Date();
-  const thaiMonths = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'];
-
-  let runningCash = 25; // Starting cash balance in millions
-
-  for (let i = -6; i <= 6; i++) {
-    const date = new Date(today);
-    date.setMonth(date.getMonth() + i);
-
-    const isFuture = i > 0;
-    const isThisMonth = i === 0;
-
-    // Free Cash Flow = Operating Cash Flow - CapEx
-    const operatingCF = 8 + randomInRange(-3, 5);
-    const capex = 2 + randomInRange(0, 3);
-    const freeCashFlow = operatingCF - capex;
-
-    runningCash += freeCashFlow;
-
-    const yearSuffix = String(date.getFullYear()).slice(-2);
-    const dateLabel = thaiMonths[date.getMonth()] + "'" + yearSuffix;
-
-    data.push({
-      date: dateLabel,
-      cashBalance: Math.max(0, runningCash),
-      freeCashFlow: freeCashFlow,
-      isForecast: isFuture,
-      isToday: isThisMonth,
-    });
-  }
-
-  return data;
-}
-
-function generateCashFlowYearly() {
-  const data: any[] = [];
-  const currentYear = new Date().getFullYear();
-
-  let runningCash = 80; // Starting cash balance in millions
-
-  for (let i = -3; i <= 3; i++) {
-    const year = currentYear + i;
-    const isFuture = i > 0;
-    const isThisYear = i === 0;
-
-    const operatingCF = 80 + randomInRange(-20, 30);
-    const capex = 25 + randomInRange(0, 15);
-    const freeCashFlow = operatingCF - capex;
-
-    runningCash += freeCashFlow;
-
-    data.push({
-      date: String(year),
-      cashBalance: Math.max(0, runningCash),
-      freeCashFlow: freeCashFlow,
-      isForecast: isFuture,
-      isToday: isThisYear,
-    });
-  }
-
-  return data;
-}
 
 export function getIndicatorData(indicator: IndicatorType, timeRange: TimeRange) {
   // Use new transport database for realistic seasonal data

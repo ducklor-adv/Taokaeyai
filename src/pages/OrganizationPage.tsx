@@ -60,43 +60,6 @@ function OrgNode({ manager, size = 'normal' }: { manager: Manager; size?: 'large
   );
 }
 
-// Vertical connector line for mobile
-function VerticalLine() {
-  return (
-    <div className="flex justify-center">
-      <div className="w-0.5 h-6 bg-slate-300"></div>
-    </div>
-  );
-}
-
-// Horizontal connector with branches for mobile
-function BranchConnector({ count }: { count: number }) {
-  return (
-    <div className="flex justify-center items-center py-2">
-      <div className="flex items-center">
-        {/* Left branches */}
-        <div className="flex">
-          {Array.from({ length: Math.ceil(count / 2) }).map((_, i) => (
-            <div key={`left-${i}`} className="flex flex-col items-center mx-2 sm:mx-4">
-              <div className="w-0.5 h-4 bg-slate-300"></div>
-            </div>
-          ))}
-        </div>
-        {/* Center line */}
-        <div className="h-0.5 w-full bg-slate-300 absolute left-1/2 transform -translate-x-1/2" style={{ width: `${Math.min(count * 60, 280)}px` }}></div>
-        {/* Right branches */}
-        <div className="flex">
-          {Array.from({ length: Math.floor(count / 2) }).map((_, i) => (
-            <div key={`right-${i}`} className="flex flex-col items-center mx-2 sm:mx-4">
-              <div className="w-0.5 h-4 bg-slate-300"></div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
-
 export function OrganizationPage() {
   const ceo = managers.find((m) => m.position === 'ผู้จัดการทั่วไป');
   const otherManagers = managers.filter((m) => m.position !== 'ผู้จัดการทั่วไป');

@@ -1,9 +1,8 @@
-import { AlertTriangle, Banknote, TrendingDown, Clock, Users, ChevronRight } from 'lucide-react';
-import { getFinancialSummary, getCashFlowStatus, getCustomerReceivables, getPayables } from '../../data/transportDatabase';
+import { AlertTriangle, Clock, Users, ChevronRight } from 'lucide-react';
+import { getFinancialSummary, getCustomerReceivables, getPayables } from '../../data/transportDatabase';
 
 export function CashCrisisCard() {
   const summary = getFinancialSummary();
-  const cashFlow = getCashFlowStatus();
   const receivables = getCustomerReceivables();
   const payables = getPayables();
 

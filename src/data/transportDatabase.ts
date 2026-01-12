@@ -506,10 +506,6 @@ function seededRandom(seed: number): () => number {
   };
 }
 
-function randomInRange(min: number, max: number, random: () => number): number {
-  return Math.floor(random() * (max - min + 1)) + min;
-}
-
 // ==================== Generate Monthly Financial Data (6 เดือน) ====================
 // สถานการณ์: งานเยอะ รายได้ดี แต่เก็บเงินได้ช้า สภาพคล่องตึง
 
@@ -772,7 +768,7 @@ export function generateMonthlyInvoices(year: number, month: number): Invoice[] 
   const totalMonthlyTrips = Math.round(650 * seasonFactor);
 
   // Distribute trips among 5 customers
-  const customerTrips = customers.map((customer, idx) => {
+  const customerTrips = customers.map((customer) => {
     const baseProportion = customer.avgTripsPerMonth / 700; // Total avg trips
     const variance = 0.9 + random() * 0.2;
     return Math.round(totalMonthlyTrips * baseProportion * variance);
@@ -1040,7 +1036,6 @@ export function getMonthlyPerformanceSummary() {
 export function getCashFlowStatus(): CashFlowStatus {
   const monthlyData = generateMonthlyFinancials();
   const current = monthlyData.find(d => d.isCurrentMonth);
-  const random = seededRandom(new Date().getMonth() + new Date().getFullYear());
 
   // เงินสดปัจจุบัน - น้อยมาก!
   const cashOnHand = current?.cashBalance || 850000;
@@ -1147,7 +1142,6 @@ export function getCustomerReceivables(): CustomerReceivable[] {
 // ข้อมูลเจ้าหนี้ที่ต้องจ่าย
 export function getPayables(): PayableItem[] {
   const today = new Date();
-  const random = seededRandom(today.getMonth());
 
   const payables: PayableItem[] = [
     // น้ำมัน - ต้องจ่ายด่วน!

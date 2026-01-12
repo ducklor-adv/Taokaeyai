@@ -118,8 +118,9 @@ export function PerformanceChart({ timeRange }: PerformanceChartProps) {
   };
 
   const renderHealthChart = () => {
-    const todayActual = todayData?.actual || 0;
-    const todayBudget = todayData?.budget || 80;
+    const healthData = todayData as { actual?: number; budget?: number } | undefined;
+    const todayActual = healthData?.actual || 0;
+    const todayBudget = healthData?.budget || 80;
     const todayDiff = todayActual - todayBudget;
 
     return (
@@ -193,9 +194,10 @@ export function PerformanceChart({ timeRange }: PerformanceChartProps) {
   };
 
   const renderPnLChart = () => {
-    const revenue = todayData?.revenue || 0;
-    const expense = todayData?.expense || 0;
-    const profit = todayData?.profit || 0;
+    const pnlData = todayData as { revenue?: number; expense?: number; profit?: number } | undefined;
+    const revenue = pnlData?.revenue || 0;
+    const expense = pnlData?.expense || 0;
+    const profit = pnlData?.profit || 0;
 
     return (
       <>
@@ -243,8 +245,9 @@ export function PerformanceChart({ timeRange }: PerformanceChartProps) {
   };
 
   const renderCashFlowChart = () => {
-    const cashBalance = todayData?.cashBalance || 0;
-    const fcf = todayData?.freeCashFlow || 0;
+    const cashData = todayData as { cashBalance?: number; freeCashFlow?: number } | undefined;
+    const cashBalance = cashData?.cashBalance || 0;
+    const fcf = cashData?.freeCashFlow || 0;
 
     return (
       <>
